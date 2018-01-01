@@ -1,12 +1,18 @@
-async def link_sub(send, sub):
+async def link_subs(send, subs):
     """
-    Sends a link to a reddit sub.
+    Send links to a set of reddit subs.
 
     :param send: The function to send a message to chat.
-    :param sub: The name of the sub.
+    :param subs: The list of the names of subs. Contains at least one element.
     :return: None
     """
-    pass
+    out = '**Subreddits detected**:'
+    reddit_base = 'https://www.reddit.com/r/'
+
+    for sub in subs:
+        out += '\n' + reddit_base + sub
+
+    await send(out)
 
 
 async def sub_lookup(send, sub, query, results = 5):

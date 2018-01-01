@@ -1,6 +1,8 @@
 import discord
-import asyncio
+import re
 import json
+
+from commands import *
 
 with open('config.json') as f:
     config = json.load(f)
@@ -20,11 +22,18 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    text = message.content
-    channel = message.channel
+    # only respond to non-bot messages
+    if not message.author.bot:
+        text = message.content
+        channel = message.channel
 
-    async def send_fn(msg):
-        await client.send_message(channel, msg)
+        async def send(msg):
+            await client.send_message(channel, msg)
+
+        sub_matches = re.findall(r"/r/([^\s/]+)", text)
+        if len(sub_matches) > 0:
+            # link to sub
+            await link_subs(send, sub_matches)
 
 
 client.run(test_token)
