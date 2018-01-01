@@ -43,8 +43,8 @@ async def on_message(message):
         args = []
         command_parsed = False
 
-        if text.startswith('/r/') or text.startswith('r/'):
-            if text.startswith('/r/'):
+        if text.startswith('/r/') or text.startswith('/R/') or text.startswith('r/') or text.startswith('R/'):
+            if text.startswith('/r/') or text.startswith('/R/'):
                 args_unparsed = text[3:]
             else:
                 args_unparsed = text[2:]
@@ -74,7 +74,7 @@ async def on_message(message):
         if not command_parsed:
             # no command has fit so far, so try to just link to sub
             # this regex matches all strings of the form '/r/abc' but without the '/r/'
-            sub_matches = re.findall(r"/r/([^\s/]+)", text)
+            sub_matches = re.findall(r"[rR]/([^\s/]+)", text)
             if len(sub_matches) > 0:
                 # link to sub
                 args.append(sub_matches)
