@@ -4,10 +4,15 @@ import json
 
 from commands import *
 
+test = False
+
 with open('config.json') as f:
     config = json.load(f)
 
-test_token = config['test-token']
+if test:
+    login_token = config['test_token']
+else:
+    login_token = config['token']
 
 client = discord.Client()
 
@@ -30,10 +35,14 @@ async def on_message(message):
         async def send(msg):
             await client.send_message(channel, msg)
 
+        async def fn(send, *args):
+            pass  # do nothing
+
+        # this regex matches all strings of the form '/r/abc' but without the '/r/'
         sub_matches = re.findall(r"/r/([^\s/]+)", text)
         if len(sub_matches) > 0:
             # link to sub
             await link_subs(send, sub_matches)
 
 
-client.run(test_token)
+client.run(login_token)
