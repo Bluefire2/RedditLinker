@@ -37,10 +37,11 @@ async def on_message(message):
 
         embed = discord.Embed
 
-        async def fn(send, *args):
+        # initialise
+        async def fn(send, embed, *args):
             pass  # do nothing
-
         args = []
+        command_parsed = False
 
         if text.startswith('/r/') or text.startswith('r/'):
             if text.startswith('/r/'):
@@ -51,23 +52,34 @@ async def on_message(message):
             args_parsed = args_unparsed.split(' ')
             sub = args_parsed[0]
 
-            if args_parsed[1] == 'hot':
-                args.append(sub)
+            if len(args_parsed) > 1:
+                # if we only have one argument, then the message is just a sub name
+                # in that case we need to link to sub, so do nothing in this stage
+                error = False
+                if args_parsed[1] == 'hot':
+                    args.append(sub)
 
-                if len(args_parsed) >= 3:
-                    # a value for the number of results was supplied
-                    try:
-                        args.append(int(args_parsed[2]))
-                    except ValueError:
-                        await send('Error: number of results must be an integer')
-                        return
+                    if len(args_parsed) >= 3:
+                        # a value for the number of results was supplied
+                        try:
+                            args.append(int(args_parsed[2]))
+                        except ValueError:
+                            error = True
 
-                await hot(send, embed, *args)
-        else:
+                    fn = hot
+
+                    if not error:
+                        command_parsed = True
+
+        if not command_parsed:
+            # no command has fit so far, so try to just link to sub
             # this regex matches all strings of the form '/r/abc' but without the '/r/'
             sub_matches = re.findall(r"/r/([^\s/]+)", text)
             if len(sub_matches) > 0:
                 # link to sub
-                await link_subs(send, embed, sub_matches)
+                args.append(sub_matches)
+                fn = link_subs
+
+        await fn(send, embed, *args)
 
 client.run(login_token)

@@ -1,6 +1,7 @@
 import json
 import urllib.request
 
+
 async def link_subs(send, embed, subs):
     """
     Send links to a set of reddit subs.
