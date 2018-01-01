@@ -1,3 +1,6 @@
+import json
+import urllib.request
+
 async def link_subs(send, embed, subs):
     """
     Send links to a set of reddit subs.
@@ -52,4 +55,14 @@ async def hot(send, embed, sub, results=5):
     :param results: the number of posts to send, embed, async defaults to 5.
     :return: None
     """
-    pass
+    base_url = 'https://www.reddit.com/r/'
+    with urllib.request.urlopen(base_url + sub + '.json') as url:
+        data = json.loads(url.read().decode())
+        posts = data['data']['children']
+
+        for i in range(results):
+            post = posts[i]['data']
+            permalink = 'https://www.reddit.com' + post['permalink']
+            url = post['url']
+            title = post['title']
+            text = post['selftext']
