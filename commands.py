@@ -29,7 +29,7 @@ async def sub_lookup(send, sub, query, results = 5):
     pass
 
 
-async def top_from_sub(send, sub, type, results = 5):
+async def top_from_sub(send, sub, type = 'all', results = 5):
     """
     Fetches the top results from a subreddit. Can fetch all time/year/6 months/1 month/1 week/1 day. If sub is 'all'
     then it fetches the top results from all of reddit.
