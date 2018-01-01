@@ -3,7 +3,7 @@ import re
 
 from commands import *
 
-debug = True
+debug = False
 # invite link: http://bit.ly/2lzFAyP
 
 with open('config.json') as f:
