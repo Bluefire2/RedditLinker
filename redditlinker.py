@@ -40,10 +40,34 @@ async def on_message(message):
         async def fn(send, *args):
             pass  # do nothing
 
-        # this regex matches all strings of the form '/r/abc' but without the '/r/'
-        sub_matches = re.findall(r"/r/([^\s/]+)", text)
-        if len(sub_matches) > 0:
-            # link to sub
-            await link_subs(send, embed, sub_matches)
+        args = []
+
+        if text.startswith('/r/') or text.startswith('r/'):
+            if text.startswith('/r/'):
+                args_unparsed = text[3:]
+            else:
+                args_unparsed = text[2:]
+
+            args_parsed = args_unparsed.split(' ')
+            sub = args_parsed[0]
+
+            if args_parsed[1] == 'hot':
+                args.append(sub)
+
+                if len(args_parsed) >= 3:
+                    # a value for the number of results was supplied
+                    try:
+                        args.append(int(args_parsed[2]))
+                    except ValueError:
+                        await send('Error: number of results must be an integer')
+                        return
+
+                await hot(send, embed, *args)
+        else:
+            # this regex matches all strings of the form '/r/abc' but without the '/r/'
+            sub_matches = re.findall(r"/r/([^\s/]+)", text)
+            if len(sub_matches) > 0:
+                # link to sub
+                await link_subs(send, embed, sub_matches)
 
 client.run(login_token)

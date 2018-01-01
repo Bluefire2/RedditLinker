@@ -60,9 +60,26 @@ async def hot(send, embed, sub, results=5):
         data = json.loads(url.read().decode())
         posts = data['data']['children']
 
+        e = embed(title=None,
+                  description=None,
+                  color=0x4286f4)
+
         for i in range(results):
             post = posts[i]['data']
             permalink = 'https://www.reddit.com' + post['permalink']
             url = post['url']
             title = post['title']
             text = post['selftext']
+
+            if text == '':
+                # it's a link post
+                field_value = url
+            else:
+                # it's a text post
+                # attach truncated text and a link to the post
+                field_value = text[0:100]
+                field_value += '... [(more)](' + permalink + ')'
+
+            e.add_field(name=title, value=field_value, inline=False)
+
+        await send(embed=e)
