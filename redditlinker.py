@@ -1,15 +1,15 @@
 import discord
 import re
-import json
 
 from commands import *
 
-test = False
+debug = True
+# invite link: http://bit.ly/2lzFAyP
 
 with open('config.json') as f:
     config = json.load(f)
 
-if test:
+if debug:
     login_token = config['test_token']
 else:
     login_token = config['token']
@@ -32,8 +32,10 @@ async def on_message(message):
         text = message.content
         channel = message.channel
 
-        async def send(msg):
-            await client.send_message(channel, msg)
+        async def send(msg=None, embed=None):
+            await client.send_message(channel, msg, embed=embed)
+
+        embed = discord.Embed
 
         async def fn(send, *args):
             pass  # do nothing
@@ -42,7 +44,6 @@ async def on_message(message):
         sub_matches = re.findall(r"/r/([^\s/]+)", text)
         if len(sub_matches) > 0:
             # link to sub
-            await link_subs(send, sub_matches)
-
+            await link_subs(send, embed, sub_matches)
 
 client.run(login_token)
