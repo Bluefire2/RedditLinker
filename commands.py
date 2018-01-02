@@ -1,9 +1,12 @@
 import json
-import urllib.request
+from urllib.request import Request, urlopen
 
 
 def embed_posts(embed, source_url, number):
-    with urllib.request.urlopen(source_url) as url:
+    req = Request(source_url)
+    req.add_header('User-agent', 'Linker')
+
+    with urlopen(req) as url:
         data = json.loads(url.read().decode())
         posts = data['data']['children']
 
