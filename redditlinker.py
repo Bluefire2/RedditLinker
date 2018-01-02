@@ -61,7 +61,7 @@ async def on_message(message):
                 # if we only have one argument, then the message is just a sub name
                 # in that case we need to link to sub, so do nothing in this stage
                 error = False
-                if args_parsed[1] == 'hot':
+                if args_parsed[1] in ['hot', 'new']:
                     args.append(sub)
 
                     if len(args_parsed) >= 3:
@@ -71,7 +71,11 @@ async def on_message(message):
                         except ValueError:
                             error = True
 
-                    fn = hot
+                    # now pick the appropriate function
+                    if args_parsed[1] == 'hot':
+                        fn = hot
+                    else:
+                        fn = new
 
                     if not error:
                         command_parsed = True
