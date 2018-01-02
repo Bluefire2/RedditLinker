@@ -2,7 +2,16 @@ import json
 from urllib.request import Request, urlopen
 
 
-def embed_posts(embed, source_url, number):
+def embed_posts(embed, source_url, number=5):
+    """
+    Fetches posts from a Reddit JSON source link, and puts them into an embed. JSON source can be of hot posts, new
+    posts, et cetera. For example, to get hot posts from /r/funny, go to https://www.reddit.com/r/funny.json.
+
+    :param embed: The current embed class.
+    :param source_url: The JSON source URL.
+    :param number: The number of posts to fetch, defaults to 5.
+    :return: An Embed object with Reddit posts from the URL.
+    """
     req = Request(source_url)
     req.add_header('User-agent', 'Linker')
 
@@ -37,7 +46,7 @@ def embed_posts(embed, source_url, number):
 
 async def link_subs(send, embed, subs):
     """
-    Send links to a set of reddit subs.
+    Send links to a set of Reddit subs.
 
     :param send: The function to send a message to chat.
     :param embed: The current embed class.
