@@ -2,6 +2,36 @@ import json
 import urllib.request
 
 
+def embed_posts(embed, source_url, number):
+    with urllib.request.urlopen(source_url) as url:
+        data = json.loads(url.read().decode())
+        posts = data['data']['children']
+
+        e = embed(title=None,
+                  description=None,
+                  color=0x4286f4)
+
+        for i in range(number):
+            post = posts[i]['data']
+            permalink = 'https://www.reddit.com' + post['permalink']
+            url = post['url']
+            title = post['title']
+            text = post['selftext']
+
+            if text == '':
+                # it's a link post
+                field_value = url
+            else:
+                # it's a text post
+                # attach truncated text and a link to the post
+                field_value = text[0:100]
+                field_value += '... [(more)](' + permalink + ')'
+
+            e.add_field(name=title, value=field_value, inline=False)
+
+        return e
+
+
 async def link_subs(send, embed, subs):
     """
     Send links to a set of reddit subs.
@@ -60,31 +90,6 @@ async def hot(send, embed, sub, results=5):
     :param results: the number of hot posts to send, defaults to 5.
     :return: None
     """
-    base_url = 'https://www.reddit.com/r/'
-    with urllib.request.urlopen(base_url + sub + '.json') as url:
-        data = json.loads(url.read().decode())
-        posts = data['data']['children']
-
-        e = embed(title=None,
-                  description=None,
-                  color=0x4286f4)
-
-        for i in range(results):
-            post = posts[i]['data']
-            permalink = 'https://www.reddit.com' + post['permalink']
-            url = post['url']
-            title = post['title']
-            text = post['selftext']
-
-            if text == '':
-                # it's a link post
-                field_value = url
-            else:
-                # it's a text post
-                # attach truncated text and a link to the post
-                field_value = text[0:100]
-                field_value += '... [(more)](' + permalink + ')'
-
-            e.add_field(name=title, value=field_value, inline=False)
-
-        await send(embed=e)
+    source_url = 'https://www.reddit.com/r/' + sub + '.json'
+    e = embed_posts(embed, source_url, results)
+    await send(embed=e)
