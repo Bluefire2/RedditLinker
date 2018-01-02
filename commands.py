@@ -93,3 +93,16 @@ async def hot(send, embed, sub, results=5):
     source_url = 'https://www.reddit.com/r/' + sub + '.json'
     e = embed_posts(embed, source_url, results)
     await send(embed=e)
+
+
+async def new(send, embed, sub, results=5):
+    """
+    Fetches the current new posts from a subreddit. If sub is 'all' then it fetches the new posts from all of reddit.
+
+    :param send: The function to send a message to chat.
+    :param embed: The current embed class.
+    :param sub: The name of the sub.
+    :param results: the number of posts to send, defaults to 5.
+    :return: None
+    """
+    pass
