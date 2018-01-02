@@ -1,7 +1,9 @@
 import json
 from urllib.request import Request, urlopen
+import requests
 
 
+# Helper functions:
 def embed_posts(embed, source_url, number=5):
     """
     Fetches posts from a Reddit JSON source link, and puts them into an embed. JSON source can be of hot posts, new
@@ -13,7 +15,7 @@ def embed_posts(embed, source_url, number=5):
     :return: An Embed object with Reddit posts from the URL.
     """
     req = Request(source_url)
-    req.add_header('User-agent', 'Linker')
+    req.add_header('User-agent', 'Linker')  # do this so that it doesn't get rate-limited and 429ed
 
     with urlopen(req) as url:
         data = json.loads(url.read().decode())
@@ -44,6 +46,19 @@ def embed_posts(embed, source_url, number=5):
         return e
 
 
+def is_image(url):
+    """
+    Determines whether a link is an image or not, without downloading it. This function works by only downloading the
+    HTTP headers, and checking the content-type.
+
+    :param url: The url to check.
+    :return: True if the link is an image, false otherwise.
+    """
+    response = requests.head(url)
+    return response.headers.get('content-type')[0:5] == 'image'
+
+
+# Command procedures:
 async def link_subs(send, embed, subs):
     """
     Send links to a set of Reddit subs.
@@ -62,7 +77,7 @@ async def link_subs(send, embed, subs):
     await send(out)
 
 
-async def sub_lookup(send, embed, sub, query, results = 5):
+async def sub_lookup(send, embed, sub, query, results=5):
     """
     Looks up the query in the sub's search, and sends the top search results. If sub is 'all' then it searches all of
     reddit.
@@ -77,7 +92,7 @@ async def sub_lookup(send, embed, sub, query, results = 5):
     pass
 
 
-async def top_from_sub(send, embed, sub, type = 'all', results = 5):
+async def top_from_sub(send, embed, sub, type='all', results=5):
     """
     Fetches the top results from a subreddit. Can fetch all time/year/6 months/1 month/1 week/1 day. If sub is 'all'
     then it fetches the top results from all of reddit.

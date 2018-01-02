@@ -157,3 +157,6 @@ fabric.properties
 
 # config file
 config.json
+
+# test script
+test.py
