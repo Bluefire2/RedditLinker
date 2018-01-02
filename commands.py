@@ -108,4 +108,6 @@ async def new(send, embed, sub, results=5):
     :param results: the number of posts to send, defaults to 5.
     :return: None
     """
-    pass
+    source_url = 'https://www.reddit.com/r/' + sub + '/new.json'
+    e = embed_posts(embed, source_url, results)
+    await send(embed=e)
