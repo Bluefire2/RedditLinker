@@ -1,10 +1,15 @@
 import discord
 import re
+import sys
 
 from commands import *
 
-debug = False
 # invite link: http://bit.ly/2lzFAyP
+
+# check if the script is running in debug mode
+debug = False
+if len(sys.argv) > 1 and sys.argv[1] == 'debug':
+    debug = True
 
 with open('config.json') as f:
     config = json.load(f)
