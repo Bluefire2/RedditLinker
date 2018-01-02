@@ -7,6 +7,7 @@ async def link_subs(send, embed, subs):
     Send links to a set of reddit subs.
 
     :param send: The function to send a message to chat.
+    :param embed: The current embed class.
     :param subs: The list of the names of subs. Contains at least one element.
     :return: None
     """
@@ -25,6 +26,7 @@ async def sub_lookup(send, embed, sub, query, results = 5):
     reddit.
 
     :param send: The function to send a message to chat.
+    :param embed: The current embed class.
     :param sub: The name of the sub.
     :param query: The search query.
     :param results: The number of search results to send, embed, async defaults to 5.
@@ -39,6 +41,7 @@ async def top_from_sub(send, embed, sub, type = 'all', results = 5):
     then it fetches the top results from all of reddit.
 
     :param send: The function to send a message to chat.
+    :param embed: The current embed class.
     :param sub: The name of the sub.
     :param type: The type of "top", for example 'month', 'year', '6month', etc...
     :param results: The number of search results to send, embed, async defaults to 5.
@@ -52,8 +55,9 @@ async def hot(send, embed, sub, results=5):
     Fetches the current hot posts from a subreddit. If sub is 'all' then it fetches the hot posts from all of reddit.
 
     :param send: The function to send a message to chat.
+    :param embed: The current embed class.
     :param sub: The name of the sub.
-    :param results: the number of posts to send, embed, async defaults to 5.
+    :param results: the number of hot posts to send, defaults to 5.
     :return: None
     """
     base_url = 'https://www.reddit.com/r/'
