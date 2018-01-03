@@ -40,10 +40,8 @@ async def on_message(message):
         async def send(msg=None, embed=None):
             await client.send_message(channel, msg, embed=embed)
 
-        embed = discord.Embed
-
         # initialise
-        async def fn(send, embed, *args):
+        async def fn(send, *args):
             pass  # do nothing
         args = []
         command_parsed = False
@@ -89,6 +87,6 @@ async def on_message(message):
                 args.append(sub_matches)
                 fn = link_subs
 
-        await fn(send, embed, *args)
+        await fn(send, *args)
 
 client.run(login_token)
