@@ -96,7 +96,10 @@ def is_image(url):
     try:
         response = requests.head(url)
         c = response.headers.get('content-type')
-        return c[0:5] == 'image'
+        if c is None:
+            return False  # stops the function from choking on HTTP 3xx, 4xx and 5xx
+        else:
+            return c[0:5] == 'image'
     except requests.exceptions.MissingSchema:
         return False
 
