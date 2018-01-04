@@ -50,8 +50,10 @@ async def on_message(message):
         if text.startswith('/r/') or text.startswith('/R/') or text.startswith('r/') or text.startswith('R/'):
             if text.startswith('/r/') or text.startswith('/R/'):
                 args_unparsed = text[3:]
+                full_r = True  # flag used later...
             else:
                 args_unparsed = text[2:]
+                full_r = False
 
             args_parsed = args_unparsed.split(' ')
             sub = args_parsed[0]
@@ -79,18 +81,25 @@ async def on_message(message):
                     if not error:
                         command_parsed = True
 
+            # TODO: perhaps it's possible to avoid all this mess and just use a single regex?
             if not command_parsed:
                 # no command has fit so far but the message *does* start with a sub name
-
-                # check if the sub is the entire message
-                first_space = text.find(' ')
-                if first_space == -1:
-                    cutoff = len(text)
+                # but wait, what if the first word is just '/r/' or 'r/'?
+                # can't just check if len <= 3 as that would ignore `r/a` which should be matched
+                # we can introduce a flag above:
+                if (full_r and len(text) == 3) or (not full_r and len(text) == 2):
+                    # do nothing
+                    pass
                 else:
-                    cutoff = first_space  # where the sub name ends
+                    # check if the sub is the entire message
+                    first_space = text.find(' ')
+                    if first_space == -1:
+                        cutoff = len(text)
+                    else:
+                        cutoff = first_space  # where the sub name ends
 
-                sub_name = text[:cutoff].split('/')[-1]
-                sub_matches.append(sub_name)
+                    sub_name = text[:cutoff].split('/')[-1]
+                    sub_matches.append(sub_name)
 
         if not command_parsed:
             # no command has fit so far, so try to just link to sub
