@@ -75,6 +75,9 @@ def embed_post(url, title, text, permalink):
         if len(text) > MAX_EMBED_TEXT_LENGTH:
             # text is too long, we need to truncate
             description = text[:MAX_EMBED_TEXT_LENGTH] + '... [(more)](' + permalink + ')'
+        elif text == '':
+            # no text
+            description = '(no text)'
         else:
             # text is short enough to just embed it completely
             description = text
