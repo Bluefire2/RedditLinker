@@ -45,6 +45,7 @@ async def on_message(message):
             pass  # do nothing
         args = []
         command_parsed = False
+        sub_matches = []
 
         if text.startswith('/r/') or text.startswith('/R/') or text.startswith('r/') or text.startswith('R/'):
             if text.startswith('/r/') or text.startswith('/R/'):
@@ -78,10 +79,23 @@ async def on_message(message):
                     if not error:
                         command_parsed = True
 
+            if not command_parsed:
+                # no command has fit so far but the message *does* start with a sub name
+
+                # check if the sub is the entire message
+                first_space = text.find(' ')
+                if first_space == -1:
+                    cutoff = len(text)
+                else:
+                    cutoff = first_space  # where the sub name ends
+
+                sub_name = text[:cutoff].split('/')[-1]
+                sub_matches.append(sub_name)
+
         if not command_parsed:
             # no command has fit so far, so try to just link to sub
-            # this regex matches all strings of the form '/r/abc' but without the '/r/'
-            sub_matches = re.findall(r"[rR]/([^\s/]+)", text)
+            # this regex matches all strings of the form ' /r/abc' but without the '/r/'
+            sub_matches += re.findall(r"\s\/?[rR]\/([^\s\/]+)", text)
             if len(sub_matches) > 0:
                 # link to sub
                 args.append(sub_matches)
