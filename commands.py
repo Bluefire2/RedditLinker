@@ -56,20 +56,21 @@ def embed_post(url, title, text, permalink):
     :param permalink: The permalink to the post's comment thread.
     :return: An embed of the post, which can be sent directly to chat.
     """
-    # TODO: maybe include the comments permalink for all posts?
     if url != '':
         # it's a link post
         # check if the link is an image or not
         if is_image(url):
             # it's an image post, so embed the image directly
             embed = Embed(title=title,
-                          color=POST_EMBED_COLOUR)
+                          color=POST_EMBED_COLOUR,
+                          url=permalink)
             embed.set_image(url=url)
         else:
             # it's a non-image link post, so embed the url as the description
             embed = Embed(title=title,
                           description=url,
-                          color=POST_EMBED_COLOUR)
+                          color=POST_EMBED_COLOUR,
+                          url=permalink)
     else:
         # it's a text post, so embed its description (truncate if needed)
         if len(text) > MAX_EMBED_TEXT_LENGTH:
@@ -84,7 +85,8 @@ def embed_post(url, title, text, permalink):
 
         embed = Embed(title=title,
                       description=description,
-                      color=POST_EMBED_COLOUR)
+                      color=POST_EMBED_COLOUR,
+                      url=permalink)
     return embed
 
 
