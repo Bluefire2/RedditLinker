@@ -22,8 +22,8 @@ To search a sub for a certain query, type the sub name, the number of results, a
 
 | Feature      | Implemented?                            |
 |--------------|-----------------------------------------|
-| Linking subs | <img src="https://i.imgur.com/OIECrDQ.png" alt="Yes" width="48"> |
-| New posts    | <img src="https://i.imgur.com/OIECrDQ.png" alt="Yes" width="48"> |
-| Hot posts    | <img src="https://i.imgur.com/OIECrDQ.png" alt="Yes" width="48"> |
+| Linking subs | <img src="https://i.imgur.com/OIECrDQ.png" alt="Yes" width="36"> |
+| New posts    | <img src="https://i.imgur.com/OIECrDQ.png" alt="Yes" width="36"> |
+| Hot posts    | <img src="https://i.imgur.com/OIECrDQ.png" alt="Yes" width="36"> |
 | Top posts    |                                         |
 | Search sub   |                                         |
