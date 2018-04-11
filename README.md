@@ -4,13 +4,13 @@ This bot has several commands, some of which have not yet been implemented but s
 ### Linking subs
 The basic command is to link any Reddit subs mentioned in chat. Subs can be of the form /r/sub, r/sub, /R/sub or R/sub, and can be anywhere in the message text.
 
-![Example of usage](https://i.imgur.com/br85A3S.png)
+![Example of usage](https://i.imgur.com/i4IHEKZ.png)
 
 ### New/hot/top posts
 
 To find and link new, hot or top posts from a sub, simply type the name of the sub, followed by the post type, and the number of posts to fetch. To get top posts, further specify the time period (day, week, month, 6month, year or all). For example, `/r/nottheonion hot 5` fetches the top 5 hot posts from /r/nottheonion.
 
-![Example of usage](https://i.imgur.com/br85A3S.png)
+![Example of usage](https://i.imgur.com/cLDztpN.png)
 
 ### Search sub
 
