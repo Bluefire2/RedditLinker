@@ -31,7 +31,7 @@ def embed_posts(source_url, number=5):
 
         embeds = []
 
-        for i in range(number):
+        for i in range(min(len(posts), number)):
             # parse out the post data
             post = posts[i]['data']
             permalink = 'https://www.reddit.com' + post['permalink']
@@ -168,7 +168,10 @@ async def sub_lookup(send, sub, query, results=5):
     """
     source_url = 'https://www.reddit.com/r/' + sub + '/search.json?restrict_sr=true&q=' + query
     embeds = embed_posts(source_url, results)
-    await send_multiple(lambda e: send(embed=e), embeds)
+    if len(embeds) > 0:
+        await send_multiple(lambda e: send(embed=e), embeds)
+    else:
+        await send('No search results found for "{}" in /r/{}.'.format(query, sub))
 
 
 async def top_from_sub(send, sub, type='all', results=5):
