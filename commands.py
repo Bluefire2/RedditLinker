@@ -166,7 +166,9 @@ async def sub_lookup(send, sub, query, results=5):
     :param results: The number of search results to send, embed, async defaults to 5.
     :return: None
     """
-    pass
+    source_url = 'https://www.reddit.com/r/' + sub + '/search.json?restrict_sr=true&q=' + query
+    embeds = embed_posts(source_url, results)
+    await send_multiple(lambda e: send(embed=e), embeds)
 
 
 async def top_from_sub(send, sub, type='all', results=5):
