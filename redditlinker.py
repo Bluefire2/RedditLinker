@@ -77,6 +77,7 @@ async def on_message(message):
                     else:
                         fn = new
                 elif len(args_parsed) >= 3:
+                    # try to parse a search command
                     # TODO: maybe redo the argument order for sub_lookup. Does `results` have to be an optional arg?
                     # a value for the number of results was supplied, and a query of at least one word
                     args.append(sub)
@@ -121,7 +122,7 @@ async def on_message(message):
             sub_matches += re.findall(r"\s\/?[rR]\/([^\s\/]+)", text)
             if len(sub_matches) > 0:
                 # link to sub
-                args.append(sub_matches)
+                args = [sub_matches]
                 fn = link_subs
 
         await fn(send, *args)
