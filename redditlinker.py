@@ -63,13 +63,12 @@ async def on_message(message):
                 # if we only have one argument, then the message is just a sub name
                 # in that case we need to link to sub, so do nothing in this stage
                 error = False
+                args.append(sub)
                 if args_parsed[1] in ['hot', 'new']:
-                    args.append(sub)
-
                     if len(args_parsed) >= 3:
                         # a value for the number of results was supplied
                         try:
-                            args.append(int(args_parsed[2]))
+                            args.append(int(args_parsed[2]))  # number of results
                         except ValueError:
                             error = True
 
@@ -78,9 +77,23 @@ async def on_message(message):
                         fn = hot
                     else:
                         fn = new
+                else:
+                    # TODO: maybe redo the argument order for sub_lookup. Does `results` have to be an optional arg?
+                    print(args_parsed)
+                    if len(args_parsed) >= 2:
+                        # a value for the number of results was supplied, and a query of at least one word
+                        args.append(' '.join(args_parsed[2:]))
+                        try:
+                            args.append(int(args_parsed[1]))  # number of results
+                        except ValueError:
+                            error = True
 
-                    if not error:
-                        command_parsed = True
+                        print(args)
+
+                    fn = sub_lookup
+
+                if not error:
+                    command_parsed = True
 
             # TODO: perhaps it's possible to avoid all this mess and just use a single regex?
             if not command_parsed:
