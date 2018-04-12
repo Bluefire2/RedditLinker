@@ -1,6 +1,7 @@
 import json
 import requests
 import asyncio
+from urllib.parse import quote
 from urllib.request import Request, urlopen
 from discord import Embed
 
@@ -166,7 +167,7 @@ async def sub_lookup(send, sub, query, results=5):
     :param results: The number of search results to send, embed, async defaults to 5.
     :return: None
     """
-    source_url = 'https://www.reddit.com/r/' + sub + '/search.json?restrict_sr=true&q=' + query
+    source_url = 'https://www.reddit.com/r/' + sub + '/search.json?restrict_sr=true&q=' + quote(query)
     embeds = embed_posts(source_url, results)
     if len(embeds) > 0:
         await send_multiple(lambda e: send(embed=e), embeds)
